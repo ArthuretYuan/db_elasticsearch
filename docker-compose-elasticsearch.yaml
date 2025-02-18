@@ -1,0 +1,21 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.3.1
+    container_name: es01
+    environment:
+      - discovery.type=single-node
+      # - xpack.security.enabled=true
+      # - xpack.security.http.ssl.enabled=true
+      # - xpack.security.enrollment.enabled=true
+      # - xpack.security.http.ssl.keystore.path=/usr/share/elasticsearch/config/elasticsearch.keystore
+      - ELASTIC_PASSWORD=password
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    driver: bridge
