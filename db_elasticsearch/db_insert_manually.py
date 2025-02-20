@@ -1,21 +1,32 @@
+# REF: https://elasticsearch-py.readthedocs.io/en/v8.17.1/
+
 from datetime import datetime
 from elasticsearch import Elasticsearch
 
+ELASTIC_USERNAME = "elastic"
+ELASTIC_PASSWORD = "password"
+
 # Connect to your Elasticsearch instance
-es = Elasticsearch(["http://localhost:9200"])  # Update with your actual host
+es = Elasticsearch("https://localhost:9200",
+                   ca_certs="./http_ca.crt",
+                   basic_auth=(ELASTIC_USERNAME, ELASTIC_PASSWORD))
 
 # Define the index name
-index_name = "my_index"
+index_name = "test_index"
 
 # Define a document to save
 doc = {
     "author": "John Doe",
-    "text": "This is a sample document for Elasticsearch",
-    "timestamp": datetime.snow(),
+    "text": "This is another sample document for Elasticsearch",
+    "timestamp": datetime.now(),
 }
 
 # Index the document
-res = es.index(index=index_name, document=doc)
+res = es.index(index=index_name, 
+               #id="001", # specify _id, otherwise assign automatically
+               document=doc)
+print(res)
 
-# Print response
+# get documents by _id
+res = es.get(index="test_index", id="OutnHpUBH6TyJ5tFb4E2")
 print(res)
